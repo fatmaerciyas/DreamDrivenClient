@@ -1,0 +1,11 @@
+/* src/assets/styles/global.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* styles.css veya global.css */
+/* styles.css veya global.css */
+
+.icon-wrapper img {
+  background: transparent; /* Ensure the background is transparent */
+}
