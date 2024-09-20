@@ -1,13 +1,19 @@
-// src/App.js
+import { HashRouter as Router, Route, Routes } from 'react-router-dom'
 import Homepage from './components/HomePage'
-import Menu from './components/Menu'
+import SpotifyEmbed from './components/SpotifyEmbed'
 import '../../assets/index.css'
-function App() {
+import Clock from './components/Clock'
+
+const App = () => {
   return (
-    <div className="App">
-      <Homepage />
-      <Menu />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/spotify" element={<SpotifyEmbed />} />
+        <Route path="/clock" element={<Clock />} />{' '}
+        {/* <Route path="*" element={<NotFound />} /> Optional: Catch-all route */}
+      </Routes>
+    </Router>
   )
 }
 

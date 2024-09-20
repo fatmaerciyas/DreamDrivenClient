@@ -1,0 +1,233 @@
+#leaves {
+  position: absolute; /* Allows leaves to start from any position */
+  top: 0; /* Start from the top */
+  right: 0; /* Align to the right */
+  width: 100%; /* Full width for multiple leaves */
+  height: 100%; /* Full height for falling */
+  overflow: hidden; /* Prevent overflow */
+}
+
+#leaves i {
+  display: inline-block;
+  width: 25px; /* Leaf width */
+  height: 20px; /* Leaf height */
+  background: linear-gradient(to bottom right, #309900, #005600);
+  position: absolute; /* Absolute positioning for leaves */
+  top: -150px; /* Start above the viewport */
+  opacity: 0.7; /* Slightly transparent */
+  transform: skew(20deg); /* Keep the skew for leaf shape */
+  border-radius: 5% 40% 70%; /* Rounded leaf shape */
+  box-shadow: inset 0px 0px 1px #222; /* Leaf shadow */
+}
+
+/* Unique starting positions for each leaf */
+#leaves i:nth-child(1) {
+  right: 10%;
+  animation: falling 9s infinite ease-in-out;
+}
+#leaves i:nth-child(2) {
+  right: 24%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling2 6s infinite ease-in-out;
+}
+#leaves i:nth-child(3) {
+  right: 30%;
+  animation: falling 11s infinite ease-in-out;
+}
+#leaves i:nth-child(4) {
+  right: 40%;
+  animation: falling3 8s infinite ease-in-out;
+}
+#leaves i:nth-child(5) {
+  right: 50%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling2 5s infinite ease-in-out;
+}
+#leaves i:nth-child(6) {
+  right: 60%;
+  animation: falling 5s infinite ease-in-out;
+}
+#leaves i:nth-child(7) {
+  right: 70%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling3 12s infinite ease-in-out;
+}
+#leaves i:nth-child(8) {
+  right: 80%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling2 8s infinite ease-in-out;
+}
+#leaves i:nth-child(9) {
+  right: 90%;
+  animation: falling 5s infinite ease-in-out;
+}
+#leaves i:nth-child(10) {
+  right: 28%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling2 4s infinite ease-in-out;
+}
+#leaves i:nth-child(11) {
+  right: 10%;
+  animation: falling3 11s infinite ease-in-out;
+}
+#leaves i:nth-child(12) {
+  right: 35%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling 4s infinite ease-in-out;
+}
+#leaves i:nth-child(13) {
+  right: 27%;
+  animation: falling2 4.2s infinite ease-in-out;
+}
+#leaves i:nth-child(14) {
+  right: 55%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling3 11s infinite ease-in-out;
+}
+#leaves i:nth-child(15) {
+  right: 65%;
+  animation: falling 3.5s infinite ease-in-out;
+}
+#leaves i:nth-child(16) {
+  right: 75%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling2 8s infinite ease-in-out;
+}
+#leaves i:nth-child(17) {
+  right: 85%;
+  animation: falling3 11s infinite ease-in-out;
+}
+#leaves i:nth-child(18) {
+  right: 95%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling 6s infinite ease-in-out;
+}
+#leaves i:nth-child(19) {
+  right: 12%;
+  animation: falling2 11s infinite ease-in-out;
+}
+#leaves i:nth-child(20) {
+  right: 22%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling3 7s infinite ease-in-out;
+}
+#leaves i:nth-child(21) {
+  right: 15%;
+  animation: falling 3s infinite ease-in-out;
+}
+#leaves i:nth-child(22) {
+  right: 15%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+
+  animation: falling2 7s infinite ease-in-out;
+}
+#leaves i:nth-child(23) {
+  right: 39%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+
+  animation: falling3 7s infinite ease-in-out;
+}
+#leaves i:nth-child(24) {
+  right: 25%;
+  animation: falling 11s infinite ease-in-out;
+}
+#leaves i:nth-child(25) {
+  right: 30%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+
+  animation: falling2 5s infinite ease-in-out;
+}
+#leaves i:nth-child(26) {
+  right: 32%;
+  animation: falling3 8s infinite ease-in-out;
+}
+#leaves i:nth-child(27) {
+  right: 34%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+  animation: falling 7s infinite ease-in-out;
+}
+#leaves i:nth-child(28) {
+  right: 45%;
+  animation: falling2 8s infinite ease-in-out;
+}
+#leaves i:nth-child(29) {
+  right: 50%;
+  background: linear-gradient(to bottom right, #ffcc00, #ff9900); /* Yellow to orange */
+
+  animation: falling3 9s infinite ease-in-out;
+}
+#leaves i:nth-child(30) {
+  right: 55%;
+  animation: falling 5s infinite ease-in-out;
+}
+#leaves i:nth-child(31) {
+  right: 60%;
+  animation: falling2 6s infinite ease-in-out;
+}
+#leaves i:nth-child(32) {
+  right: 65%;
+  animation: falling3 7s infinite ease-in-out;
+}
+#leaves i:nth-child(33) {
+  right: 70%;
+  animation: falling 11s infinite ease-in-out;
+}
+#leaves i:nth-child(34) {
+  right: 75%;
+  animation: falling2 5s infinite ease-in-out;
+}
+#leaves i:nth-child(35) {
+  right: 5%;
+  animation: falling3 6s infinite ease-in-out;
+}
+#leaves i:nth-child(36) {
+  right: 85%;
+  animation: falling 7s infinite ease-in-out;
+}
+#leaves i:nth-child(37) {
+  right: 90%;
+  animation: falling2 8s infinite ease-in-out;
+}
+#leaves i:nth-child(38) {
+  right: 95%;
+  animation: falling3 9s infinite ease-in-out;
+}
+#leaves i:nth-child(39) {
+  right: 8%;
+  animation: falling 5s infinite ease-in-out;
+}
+#leaves i:nth-child(40) {
+  right: 18%;
+  animation: falling2 6s infinite ease-in-out;
+}
+
+/* Keyframes for animations */
+@keyframes falling {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(-350px, 1900px) rotate(90deg);
+    opacity: 0;
+  }
+}
+
+@keyframes falling2 {
+  0% {
+    transform: translate(0, 0) rotate(90deg);
+  }
+  100% {
+    transform: translate(-400px, 1000px) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+@keyframes falling3 {
+  0% {
+    transform: translate(0, 0) rotate(-20deg);
+  }
+  100% {
+    transform: translate(-230px, 1900px) rotate(-70deg);
+    opacity: 0;
+  }
+}

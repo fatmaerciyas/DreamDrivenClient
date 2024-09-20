@@ -11,7 +11,13 @@ import bg3 from '../../../assets/bg3.jpg'
 import bg4 from '../../../assets/bg4.jpg'
 import bg5 from '../../../assets/bg5.jpg'
 import bg6 from '../../../assets/bg6.jpg'
-import { useState } from 'react'
+import RainSound from '../../../assets/sounds/rain.mp3'
+import SnowSound from '../../../assets/sounds/bird.mp3'
+import WindSound from '../../../assets/sounds/wind.mp3'
+import SeaSound from '../../../assets/sounds/sea.mp3'
+import FireSound from '../../../assets/sounds/fire.mp3'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const ToggleButton = ({ isActive, onClick }) => {
   const activeCls = isActive ? 'bg-cyan-500 text-white' : 'bg-gray-300 text-gray-700'
@@ -29,18 +35,31 @@ const ToggleButton = ({ isActive, onClick }) => {
   )
 }
 
-const BottomMenu = ({ setBackground, setEffect }) => {
+const BottomMenu = ({ setBackground, setEffect, setShowSpotify }) => {
+  const navigate = useNavigate()
+
   const [hoveredIndex, setHoveredIndex] = useState(null)
   const [activeBoxIndex, setActiveBoxIndex] = useState(null)
   const [activeSecondBoxIndex, setActiveSecondBoxIndex] = useState(null)
+  const [activeThirdBoxIndex, setActiveThirdBoxIndex] = useState(null)
+  const [audio, setAudio] = useState(new Audio())
 
   const [toggles, setToggles] = useState([
-    { name: 'Parallax', isActive: false },
+    { name: 'Parallax', isActive: true },
     { name: 'ShootingStars', isActive: false },
-    { name: 'Start', isActive: false },
-    { name: 'Space', isActive: false },
-    { name: 'Bubbles', isActive: false },
-    { name: 'Rain', isActive: false }
+    { name: 'Rain', isActive: false },
+    { name: 'Particle', isActive: false },
+    { name: 'Snow', isActive: false },
+    { name: 'Leaves', isActive: false }
+  ])
+
+  const [thirdBoxToggles, setThirdBoxToggles] = useState([
+    { name: 'None', sound: null, isActive: true },
+    { name: 'Rain', sound: RainSound, isActive: false },
+    { name: 'Bird', sound: SnowSound, isActive: false },
+    { name: 'Wind', sound: WindSound, isActive: false },
+    { name: 'Sea', sound: SeaSound, isActive: false },
+    { name: 'Fire', sound: FireSound, isActive: false }
   ])
 
   const handleToggle = (index) => {
@@ -51,24 +70,50 @@ const BottomMenu = ({ setBackground, setEffect }) => {
       }))
     )
 
-    // Update the effect based on the selected toggle
-    const effects = [
-      'WindEffect',
-      'ShootingStars',
-      'StartEffect',
-      'SpaceEffect',
-      'BubblesEffect',
-      'ToggleFEffect'
-    ]
-    setEffect(effects[index]) // Assuming you have corresponding effect names
-
+    const effects = ['Parallax', 'ShootingStars', 'Rain', 'Particle', 'Snow', 'Leaves']
+    setEffect(effects[index])
     console.log('Effect is', effects[index])
   }
 
+  const handleThirdBoxToggle = (index) => {
+    setThirdBoxToggles((prev) =>
+      prev.map((toggle, i) => ({
+        ...toggle,
+        isActive: i === index // Toggle the clicked button
+      }))
+    )
+
+    // Stop current audio if any
+    audio.pause()
+    audio.currentTime = 0
+
+    // Play the selected sound if available
+    if (thirdBoxToggles[index].sound) {
+      const newAudio = new Audio(thirdBoxToggles[index].sound)
+      newAudio.loop = true // Loop the sound
+      newAudio.play()
+      setAudio(newAudio)
+    }
+  }
+
+  const handleMenuItemClick = (index) => {
+    if (index === 0) {
+      setActiveBoxIndex(activeBoxIndex === index ? null : index) // First box toggle
+    } else if (index === 1) {
+      setActiveSecondBoxIndex(activeSecondBoxIndex === index ? null : index) // Second box toggle
+    } else if (index === 2) {
+      setActiveThirdBoxIndex(activeThirdBoxIndex === index ? null : index) // Third box toggle
+    } else if (index === 3) {
+      // Fourth menu item for Spotify
+      setShowSpotify((prev) => !prev) // Toggle Spotify visibility
+    } else if (index === 4) {
+      navigate('/clock') // Navigate to Spotify page
+    }
+  }
   const menuItems = [
     { icon: HomeIcon, name: 'Home' },
     { icon: BookIcon, name: 'Books' },
-    { icon: SettingsIcon, name: 'Settings' },
+    { icon: SettingsIcon, name: 'Settings' }, // Third button for Settings
     { icon: ClockIcon, name: 'Pomodoro' },
     { icon: SpellBookIcon, name: 'Agenda' }
   ]
@@ -80,13 +125,13 @@ const BottomMenu = ({ setBackground, setEffect }) => {
     setBackground(`url(${image})`)
   }
 
-  const handleMenuItemClick = (index) => {
-    if (index === 0) {
-      setActiveBoxIndex(activeBoxIndex === index ? null : index) // First box toggle
-    } else if (index === 1) {
-      setActiveSecondBoxIndex(activeSecondBoxIndex === index ? null : index) // Second box toggle
+  useEffect(() => {
+    // Cleanup on unmount
+    return () => {
+      audio.pause()
+      audio.currentTime = 0
     }
-  }
+  }, [audio])
 
   return (
     <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-full max-w-lg p-1 backdrop-blur-xs text-orange-300 flex justify-around">
@@ -96,7 +141,7 @@ const BottomMenu = ({ setBackground, setEffect }) => {
           className="icon-wrapper flex flex-col items-center"
           onMouseEnter={() => setHoveredIndex(index)}
           onMouseLeave={() => setHoveredIndex(null)}
-          onClick={() => handleMenuItemClick(index)} // Use unified click handler
+          onClick={() => handleMenuItemClick(index)}
         >
           <img
             src={item.icon}
@@ -143,18 +188,43 @@ const BottomMenu = ({ setBackground, setEffect }) => {
             <h2 className="font-bold text-lg">Toggle Options</h2>
             <button
               className="text-xl font-bold"
-              onClick={() => setActiveSecondBoxIndex(null)}
+              onClick={() => setActiveSecondBoxIndex(null)} // Close second box
               aria-label="Close"
             >
               &times;
             </button>
           </div>
-          <div className="mt-2 grid grid-cols-2 gap-2">
+          <div className="mt-2 grid grid-cols-2 gap-4">
             {toggles.map((toggle, index) => (
               <div key={index} className="flex items-center justify-between my-2">
-                <span className="text-sm font-medium">{toggle.name}</span>{' '}
-                {/* Use the unique name here */}
+                <span className="text-sm font-medium">{toggle.name}</span>
                 <ToggleButton isActive={toggle.isActive} onClick={() => handleToggle(index)} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeThirdBoxIndex === 2 && (
+        <div className="absolute bottom-16 left-32 transform -translate-x-1/2 bg-transparent backdrop-blur-sm p-4 rounded-lg shadow-lg z-10 w-full overflow-auto">
+          <div className="flex justify-between items-center">
+            <h2 className="font-bold text-lg">Sounds</h2>
+            <button
+              className="text-xl font-bold"
+              onClick={() => setActiveThirdBoxIndex(null)} // Close third box
+              aria-label="Close"
+            >
+              &times;
+            </button>
+          </div>
+          <div className="mt-2 grid grid-cols-2 gap-4">
+            {thirdBoxToggles.map((toggle, index) => (
+              <div key={index} className="flex items-center justify-between my-2">
+                <span className="text-sm font-medium">{toggle.name}</span>
+                <ToggleButton
+                  isActive={toggle.isActive}
+                  onClick={() => handleThirdBoxToggle(index)}
+                />
               </div>
             ))}
           </div>
@@ -165,7 +235,9 @@ const BottomMenu = ({ setBackground, setEffect }) => {
 }
 
 BottomMenu.propTypes = {
-  setBackground: PropTypes.func.isRequired
+  setBackground: PropTypes.func.isRequired,
+  setEffect: PropTypes.func.isRequired,
+  setShowSpotify: PropTypes.func.isRequired // Add this prop type
 }
 
 export default BottomMenu

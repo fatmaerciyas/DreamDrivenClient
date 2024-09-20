@@ -18,7 +18,7 @@ const Menu = () => {
   ]
 
   return (
-    <div className="fixed top-0 right-0 w-16 h-full bg-gradient-to-b backdrop-blur-lg text-orange-400 flex items-center justify-center">
+    <div className="fixed top-0 right-0 w-16 h-full bg-gradient-to-b backdrop-blur-sm text-orange-400 flex items-center justify-center">
       <div className="flex flex-col space-y-6">
         {menuItems.map((item, index) => (
           <div
