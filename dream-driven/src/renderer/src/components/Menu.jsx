@@ -5,17 +5,23 @@ import SettingsIcon from '../../../assets/icons/Settings.png'
 import ClockIcon from '../../../assets/icons/Clock.png'
 import SpellBookIcon from '../../../assets/icons/Spell Book.png'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const Menu = () => {
+  const navigate = useNavigate()
   const [hoveredIndex, setHoveredIndex] = useState(null)
 
   const menuItems = [
-    { icon: HomeIcon, name: 'Home' },
-    { icon: BookIcon, name: 'Books' },
-    { icon: SettingsIcon, name: 'Settings' },
-    { icon: ClockIcon, name: 'Pomodoro' },
-    { icon: SpellBookIcon, name: 'Agenda' }
+    { icon: HomeIcon, name: 'Room', route: '/room' },
+    { icon: BookIcon, name: 'Books', route: '/books' },
+    { icon: SettingsIcon, name: 'Settings', route: '/settings' },
+    { icon: ClockIcon, name: 'Pomodoro', route: '/pomodoro' },
+    { icon: SpellBookIcon, name: 'Agenda', route: '/agenda' }
   ]
+
+  const handleItemClick = (route) => {
+    navigate(route) // Navigate to the specified route
+  }
 
   return (
     <div className="fixed top-0 right-0 w-16 h-full bg-gradient-to-b backdrop-blur-sm text-orange-400 flex items-center justify-center">
@@ -23,9 +29,10 @@ const Menu = () => {
         {menuItems.map((item, index) => (
           <div
             key={index}
-            className="icon-wrapper flex flex-col items-center"
+            className="icon-wrapper flex flex-col items-center cursor-pointer"
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
+            onClick={() => handleItemClick(item.route)} // Call the click handler
           >
             <img
               src={item.icon}
@@ -33,9 +40,7 @@ const Menu = () => {
               className="w-16 h-auto rounded-full bg-transparent bg-opacity-20 p-2 transition-transform transform hover:scale-110 hover:rotate-12 shadow-md"
             />
             <span
-              className={`text-sm transition-opacity duration-300 ease-in-out ${
-                hoveredIndex === index ? 'opacity-100' : 'opacity-0'
-              }`}
+              className={`text-sm transition-opacity duration-300 ease-in-out ${hoveredIndex === index ? 'opacity-100' : 'opacity-0'}`}
             >
               {item.name}
             </span>

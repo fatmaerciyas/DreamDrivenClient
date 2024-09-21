@@ -15,7 +15,7 @@ const Clock = () => {
   }, [])
 
   return (
-    <div className="clock mb-24 flex flex-col items-center">
+    <div className="clock flex flex-col align-middle bg-slate-700 justify-center items-center">
       <h1>
         <span>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
       </h1>

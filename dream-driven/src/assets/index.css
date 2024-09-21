@@ -9,3 +9,15 @@
 .icon-wrapper img {
   background: transparent; /* Ensure the background is transparent */
 }
+body {
+  width: 100%;
+  height: 100vh;
+  margin: 0; /* Remove default margin */
+  overflow: hidden;
+}
+
+#root {
+  /* Assuming your React app is rendered in an element with id "root" */
+  display: flex;
+  height: 100%;
+}

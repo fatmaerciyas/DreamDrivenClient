@@ -35,7 +35,7 @@ const ToggleButton = ({ isActive, onClick }) => {
   )
 }
 
-const BottomMenu = ({ setBackground, setEffect, setShowSpotify }) => {
+const BottomMenu = ({ setBackground, setEffect }) => {
   const navigate = useNavigate()
 
   const [hoveredIndex, setHoveredIndex] = useState(null)
@@ -104,8 +104,7 @@ const BottomMenu = ({ setBackground, setEffect, setShowSpotify }) => {
     } else if (index === 2) {
       setActiveThirdBoxIndex(activeThirdBoxIndex === index ? null : index) // Third box toggle
     } else if (index === 3) {
-      // Fourth menu item for Spotify
-      setShowSpotify((prev) => !prev) // Toggle Spotify visibility
+      navigate('/spotify') // Navigate to Spotify page
     } else if (index === 4) {
       navigate('/clock') // Navigate to Spotify page
     }
