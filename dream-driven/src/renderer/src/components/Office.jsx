@@ -6,15 +6,15 @@ import { useGLTF, useTexture, useVideoTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { animate, useMotionValue } from 'framer-motion'
 import { motion } from 'framer-motion-3d'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import * as THREE from 'three'
 
 export function Office(props) {
   const { section } = props
-  const { nodes, materials } = useGLTF('../../../assets/models/scene.gltf')
-  const texture = useTexture('../../../assets/textures/baked.jpg')
-  const textureVSCode = useVideoTexture('../../../assets/textures/vscode.mp4')
+  const { nodes, materials } = useGLTF('models/scene.gltf')
+  const texture = useTexture('textures/baked.jpg')
+  const textureVSCode = useVideoTexture('textures/vscode.mp4')
 
   texture.flipY = false
   texture.encoding = THREE.sRGBEncoding
@@ -35,12 +35,8 @@ export function Office(props) {
   const glassTextureOpacity = useMotionValue(0)
 
   useEffect(() => {
-    animate(textureOpacity, section === 0 ? 1 : 0, {
-      duration: 0.8
-    })
-    animate(glassTextureOpacity, section === 0 ? 0.42 : 0, {
-      duration: 0.8
-    })
+    animate(textureOpacity, section === 0 ? 1 : 0)
+    animate(glassTextureOpacity, section === 0 ? 0.42 : 0)
   }, [section])
 
   useFrame(() => {
@@ -313,5 +309,4 @@ export function Office(props) {
   )
 }
 
-useGLTF.preload('../../../assets/models/scene.gltf')
-useTexture.preload('../../../assets/textures/baked.jpg')
+useGLTF.preload('models/scene.gltf')
