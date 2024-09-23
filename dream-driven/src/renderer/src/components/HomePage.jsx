@@ -9,13 +9,11 @@ import SnowEffect from './Effects/SnowEffect'
 import LeavesEffect from './Effects/LeavesEffect'
 import { Outlet } from 'react-router-dom'
 import '../../../assets/index.css'
-import SpotifyEmbed from './SpotifyEmbed'
 import Menu from './Menu'
 
 const Homepage = () => {
   const [background, setBackground] = useState(`url(${bg2})`)
   const [effect, setEffect] = useState('ParallaxEffect')
-  const [showSpotify, setShowSpotify] = useState(false)
 
   const renderEffect = () => {
     switch (effect) {
@@ -47,7 +45,6 @@ const Homepage = () => {
       {renderEffect()}
       <div className="flex flex-col h-screen justify-center items-center text-center pb-32 text-black p-8">
         <Outlet />
-        {showSpotify && <SpotifyEmbed show={showSpotify} onClose={() => setShowSpotify(false)} />}
       </div>
       <BottomMenu setBackground={setBackground} setEffect={setEffect} />
     </div>

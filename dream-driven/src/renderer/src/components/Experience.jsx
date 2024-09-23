@@ -38,6 +38,17 @@ export const Experience = (props) => {
   useFrame((state) => {
     state.camera.position.x = cameraPositionX.get()
     state.camera.lookAt(cameraLookAtX.get(), 0, 0)
+
+    // const position = new THREE.Vector3();
+    // characterContainerAboutRef.current.getWorldPosition(position);
+    // console.log([position.x, position.y, position.z]);
+
+    // const quaternion = new THREE.Quaternion();
+    // characterContainerAboutRef.current.getWorldQuaternion(quaternion);
+    // const euler = new THREE.Euler();
+    // euler.setFromQuaternion(quaternion, "XYZ");
+
+    // console.log([euler.x, euler.y, euler.z]);
   })
 
   return (

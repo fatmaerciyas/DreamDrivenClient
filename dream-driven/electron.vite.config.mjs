@@ -16,7 +16,7 @@ export default defineConfig({
         '@renderer': resolve('src/renderer/src')
       }
     },
-    publicDir: 'public',
+    // publicDir: 'public',
     plugins: [react(), svgr()]
   }
 })

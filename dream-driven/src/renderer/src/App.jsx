@@ -5,6 +5,7 @@ import Clock from './components/Clock'
 import MainPage from './components/MainPage'
 import SpotifyEmbed from './components/SpotifyEmbed'
 import Room from './components/Room'
+import MonthlyTodo from './components/MonthlyTodo'
 
 const App = () => {
   return (
@@ -14,7 +15,8 @@ const App = () => {
           <Route path="clock" element={<Clock />} />
           <Route path="main" element={<MainPage />} />
           <Route path="spotify" element={<SpotifyEmbed />} />
-          <Route path="room" element={<Room />} />
+          <Route path="todo" element={<MonthlyTodo />} />
+          {/* <Route path="room" element={<Room />} /> */}
         </Route>
       </Routes>
     </Router>

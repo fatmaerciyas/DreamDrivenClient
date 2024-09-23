@@ -12,7 +12,7 @@ const Menu = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null)
 
   const menuItems = [
-    { icon: HomeIcon, name: 'Room', route: '/room' },
+    { icon: HomeIcon, name: 'MonthlyTodo', route: '/todo' },
     { icon: BookIcon, name: 'Books', route: '/books' },
     { icon: SettingsIcon, name: 'Settings', route: '/settings' },
     { icon: ClockIcon, name: 'Pomodoro', route: '/pomodoro' },
