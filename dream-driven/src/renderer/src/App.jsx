@@ -4,7 +4,6 @@ import '../../assets/index.css'
 import Clock from './components/Clock'
 import MainPage from './components/MainPage'
 import SpotifyEmbed from './components/SpotifyEmbed'
-import Room from './components/Room'
 import MonthlyTodo from './components/MonthlyTodo'
 
 const App = () => {
