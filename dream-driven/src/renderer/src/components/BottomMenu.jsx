@@ -184,7 +184,7 @@ const BottomMenu = ({ setBackground, setEffect }) => {
       {activeSecondBoxIndex === 1 && (
         <div className="absolute bottom-16 right-32 transform translate-x-1/2 bg-transparent backdrop-blur-sm p-4 rounded-lg shadow-lg z-10 w-full overflow-auto">
           <div className="flex justify-between items-center">
-            <h2 className="font-bold text-lg">Toggle Options</h2>
+            <h2 className="font-bold text-lg">Visual Effects</h2>
             <button
               className="text-xl font-bold"
               onClick={() => setActiveSecondBoxIndex(null)} // Close second box

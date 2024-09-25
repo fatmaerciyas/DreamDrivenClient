@@ -13,7 +13,7 @@ const Menu = () => {
 
   const menuItems = [
     { icon: HomeIcon, name: 'MonthlyTodo', route: '/todo' },
-    { icon: BookIcon, name: 'Books', route: '/books' },
+    { icon: BookIcon, name: 'Pomodoro', route: '/pomodoro' },
     { icon: SettingsIcon, name: 'Settings', route: '/settings' },
     { icon: ClockIcon, name: 'Pomodoro', route: '/pomodoro' },
     { icon: SpellBookIcon, name: 'Agenda', route: '/agenda' }

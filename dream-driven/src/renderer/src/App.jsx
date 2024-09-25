@@ -4,7 +4,8 @@ import '../../assets/index.css'
 import Clock from './components/Clock'
 import MainPage from './components/MainPage'
 import SpotifyEmbed from './components/SpotifyEmbed'
-import MonthlyTodo from './components/MonthlyTodo'
+import MonthlyTodos from './components/MonthlyTodos'
+import PomodoroTimer from './components/PomodoroTimer'
 
 const App = () => {
   return (
@@ -14,7 +15,8 @@ const App = () => {
           <Route path="clock" element={<Clock />} />
           <Route path="main" element={<MainPage />} />
           <Route path="spotify" element={<SpotifyEmbed />} />
-          <Route path="todo" element={<MonthlyTodo />} />
+          <Route path="todo" element={<MonthlyTodos />} />
+          <Route path="pomodoro" element={<PomodoroTimer />} />
           {/* <Route path="room" element={<Room />} /> */}
         </Route>
       </Routes>

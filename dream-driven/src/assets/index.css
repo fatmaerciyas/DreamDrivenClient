@@ -61,17 +61,33 @@ body {
   font-size: 16px;
 }
 
-.fade-input {
+/* MonthlyTodo.css */
+.modal {
   opacity: 0;
-  height: 0;
-  overflow: hidden;
+  transform: translateY(-20px);
   transition:
-    opacity 0.5s ease,
-    height 0.5s ease; /* Transition for both opacity and height */
+    opacity 0.3s ease,
+    transform 0.3s ease;
 }
 
-.fade-input.show {
-  opacity: 1; /* Show the input */
-  height: auto; /* Allow height to adjust */
-  pointer-events: auto; /* Allow interaction */
+.modal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modal-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 30%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
