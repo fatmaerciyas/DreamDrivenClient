@@ -50,17 +50,6 @@ body {
   padding: 10px;
 }
 
-.btn-close,
-.btn-minimize,
-.btn-maximize {
-  -webkit-app-region: no-drag; /* Prevent button area from being draggable */
-  cursor: pointer;
-  margin-left: 10px;
-  background: none;
-  border: none;
-  font-size: 16px;
-}
-
 /* MonthlyTodo.css */
 .modal {
   opacity: 0;
