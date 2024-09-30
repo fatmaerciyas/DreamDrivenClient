@@ -1,103 +1,133 @@
-// import { useState, useEffect } from 'react'
-// import '../../../assets/pomodoro.css' // Import the CSS for styling
-// import FlipCountdown from '@rumess/react-flip-countdown'
+import { useState } from 'react'
+import { CountdownCircleTimer } from 'react-countdown-circle-timer'
+import '../../../assets/pomodoro.css'
+import beepSound from '../../../assets/beep.mp3'
+import Congratulations from './Congratulations'
 
 const PomodoroTimer = () => {
-  // const [workTime, setWorkTime] = useState(25 * 60) // Default 25 minutes
-  // const [breakTime, setBreakTime] = useState(5 * 60) // Default 5 minutes
-  // const [isActive, setIsActive] = useState(false)
-  // const [isBreak, setIsBreak] = useState(false)
-  // const [timeRemaining, setTimeRemaining] = useState(workTime)
+  const [sessionLength, setSessionLength] = useState(25)
+  const [breakLength, setBreakLength] = useState(5)
+  const [isRunning, setIsRunning] = useState(false)
+  const [currentMode, setCurrentMode] = useState('pomodoro')
+  const [showCongrats, setShowCongrats] = useState(false)
 
-  // useEffect(() => {
-  //   let timer
-  //   if (isActive) {
-  //     timer = setInterval(() => {
-  //       setTimeRemaining((prev) => {
-  //         if (prev <= 0) {
-  //           setIsBreak((prev) => !prev)
-  //           return isBreak ? workTime : breakTime
-  //         }
-  //         return prev - 1
-  //       })
-  //     }, 1000)
-  //   }
-  //   return () => clearInterval(timer)
-  // }, [isActive, isBreak, workTime, breakTime])
+  const duration = currentMode === 'pomodoro' ? sessionLength * 60 : breakLength * 60
 
-  // const handleStart = () => {
-  //   if (!isActive) {
-  //     setIsActive(true)
-  //     setTimeRemaining(isBreak ? breakTime : workTime)
-  //   }
-  // }
+  const handleStart = () => {
+    if (!isRunning) {
+      setIsRunning(true)
+    }
+  }
 
-  // const handlePause = () => setIsActive(false)
+  const handleStop = () => {
+    setIsRunning(false)
+  }
 
-  // const handleReset = () => {
-  //   setIsActive(false)
-  //   setIsBreak(false)
-  //   setTimeRemaining(workTime)
-  // }
+  const handleClear = () => {
+    setIsRunning(false)
+    setCurrentMode('pomodoro')
+    setSessionLength(25)
+    setBreakLength(5)
+    setShowCongrats(false)
+  }
+
+  const onComplete = () => {
+    const audio = new Audio(beepSound)
+    audio.play()
+
+    // Show congratulatory message
+    setShowCongrats(true)
+
+    // Stop the timer
+    setIsRunning(false)
+
+    // Switch modes
+    if (currentMode === 'pomodoro') {
+      setCurrentMode('break')
+      return [true, breakLength * 60]
+    } else {
+      setCurrentMode('pomodoro')
+      return [true, sessionLength * 60]
+    }
+  }
+
+  const handleCloseCongrats = () => {
+    setShowCongrats(false)
+    // When closing congrats, start break timer if it's break mode
+    if (currentMode === 'break') {
+      setIsRunning(true)
+    }
+  }
 
   return (
-    <>
-      <p
-        className="codepen"
-        data-height="300"
-        data-default-tab="css,result"
-        data-slug-hash="wgwqBB"
-        data-pen-title="Pomodoro Clock"
-        data-editable="true"
-        data-user="putraaryotama"
-        style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;"
-      >
-        <span>
-          See the Pen <a href="https://codepen.io/putraaryotama/pen/wgwqBB">Pomodoro Clock</a> by
-          Putra Aryotama (<a href="https://codepen.io/putraaryotama">@putraaryotama</a>) on{' '}
-          <a href="https://codepen.io">CodePen</a>.
-        </span>
-      </p>
-      <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
-    </>
-    // <div className="pomodoro-timer">
-    //   <FlipCountdown
-    //     theme="dark"
-    //     hideYear
-    //     hideMonth
-    //     hideDay
-    //     endAtZero
-    //     endAt={new Date(Date.now() + timeRemaining * 1000).toISOString()}
-    //   />
-    //   <div className="controls">
-    //     {isActive ? (
-    //       <button className="btn" onClick={handlePause}>
-    //         Pause
-    //       </button>
-    //     ) : (
-    //       <button className="btn" onClick={handleStart}>
-    //         Start
-    //       </button>
-    //     )}
-    //     <button className="btn" onClick={handleReset}>
-    //       Reset
-    //     </button>
-    //   </div>
-    //   <input
-    //     type="number"
-    //     value={workTime / 60}
-    //     onChange={(e) => setWorkTime(e.target.value * 60)}
-    //     placeholder="Work minutes"
-    //     className="input"
-    //   />
-    //   <input
-    //     type="number"
-    //     value={breakTime / 60}
-    //     onChange={(e) => setBreakTime(e.target.value * 60)}
-    //     placeholder="Break minutes"
-    //     className="input"
-    //   />
-    // </div>
+    <div className="pomodoro backdrop-blur-sm">
+      <div className="circle-container">
+        <CountdownCircleTimer
+          isPlaying={isRunning}
+          duration={duration}
+          colors="url(#your-unique-id)"
+          onComplete={onComplete}
+        >
+          {({ remainingTime }) => (
+            <div style={{ fontSize: '2em', color: '#ffffff' }}>
+              {`${Math.floor(remainingTime / 60)}:${String(remainingTime % 60).padStart(2, '0')}`}
+            </div>
+          )}
+        </CountdownCircleTimer>
+        <svg>
+          <defs>
+            <linearGradient id="your-unique-id" x1="1" y1="0" x2="0" y2="0">
+              <stop offset="5%" stopColor="#3357FF" />
+              <stop offset="95%" stopColor="#33FFF6" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <h2 className="mode">{currentMode === 'pomodoro' ? 'Pomodoro' : 'Break'}</h2>
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <div>
+          <p className="text-lg text-slate-100">Session Length</p>
+          <div className="counter">
+            <button
+              className="btn"
+              onClick={() => setSessionLength(Math.max(1, sessionLength - 1))}
+            >
+              -
+            </button>
+            <span>{sessionLength}</span>
+            <button className="btn" onClick={() => setSessionLength(sessionLength + 1)}>
+              +
+            </button>
+          </div>
+        </div>
+        <div>
+          <p className="text-lg text-slate-100">Break Length</p>
+          <div className="counter">
+            <button className="btn" onClick={() => setBreakLength(Math.max(1, breakLength - 1))}>
+              -
+            </button>
+            <span>{breakLength}</span>
+            <button className="btn" onClick={() => setBreakLength(breakLength + 1)}>
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className="container mt-16">
+        <div className="row" id="btns">
+          <button className="btn btn-default btn-lg" onClick={handleStart}>
+            Start
+          </button>
+          <button className="btn btn-default btn-lg" onClick={handleStop}>
+            Stop
+          </button>
+          <button className="btn btn-default btn-lg" onClick={handleClear}>
+            Clear
+          </button>
+        </div>
+      </div>
+      {showCongrats && <Congratulations mode={currentMode} onClose={handleCloseCongrats} />}
+    </div>
   )
 }
 

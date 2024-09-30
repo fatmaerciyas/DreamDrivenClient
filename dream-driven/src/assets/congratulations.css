@@ -1,0 +1,39 @@
+.congratulations-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's on top */
+}
+
+.congratulations-box {
+  background: rgb(177, 172, 172);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.congratulations-box h2 {
+  margin: 0;
+}
+
+.congratulations-box button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #293030;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.congratulations-box button:hover {
+  background-color: #36777c;
+}

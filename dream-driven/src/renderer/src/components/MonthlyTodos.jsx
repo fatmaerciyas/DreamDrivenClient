@@ -81,21 +81,13 @@ export default function MonthlyTodo() {
 
   return (
     <div
-      className="flex h-screen w-[1300px] m-32 rounded-3xl justify-center opacity-80"
+      className="flex mt-40 h-screen w-[1300px] m-32 rounded-3xl justify-center opacity-80"
       style={{ backgroundColor }}
     >
-      <div className="w-full mx-8 p-8">
+      <div className="w-full mx-8 p-6 relative">
         <button
-          onClick={() => navigate(-1)} // Go back to previous page
-          style={{
-            background: 'transparent',
-            fontSize: '40px',
-            position: 'fixed',
-            right: '330px',
-            top: '40px',
-            color: 'white',
-            cursor: 'pointer'
-          }}
+          className="absolute text-3xl top-0 right-0 -mr-6 -mt-2 w-8 h-8 cursor-pointer text-white bg-transparent"
+          onClick={() => navigate(-1)} // Go back to previous pa
         >
           &times;
         </button>
