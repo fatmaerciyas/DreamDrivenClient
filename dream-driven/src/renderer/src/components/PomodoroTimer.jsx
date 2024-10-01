@@ -10,12 +10,12 @@ const PomodoroTimer = () => {
   const [isRunning, setIsRunning] = useState(false)
   const [currentMode, setCurrentMode] = useState('pomodoro')
   const [showCongrats, setShowCongrats] = useState(false)
-
-  const duration = currentMode === 'pomodoro' ? sessionLength * 60 : breakLength * 60
+  const [duration, setDuration] = useState(sessionLength * 60)
 
   const handleStart = () => {
     if (!isRunning) {
       setIsRunning(true)
+      setDuration(currentMode === 'pomodoro' ? sessionLength * 60 : breakLength * 60)
     }
   }
 
@@ -29,33 +29,48 @@ const PomodoroTimer = () => {
     setSessionLength(25)
     setBreakLength(5)
     setShowCongrats(false)
+    setDuration(25 * 60)
   }
 
   const onComplete = () => {
     const audio = new Audio(beepSound)
     audio.play()
 
-    // Show congratulatory message
     setShowCongrats(true)
-
-    // Stop the timer
     setIsRunning(false)
 
-    // Switch modes
+    // Switch modes without triggering additional updates
     if (currentMode === 'pomodoro') {
       setCurrentMode('break')
-      return [true, breakLength * 60]
+      setDuration(breakLength * 60)
     } else {
       setCurrentMode('pomodoro')
-      return [true, sessionLength * 60]
+      setDuration(sessionLength * 60)
     }
+
+    return [true, duration]
   }
 
   const handleCloseCongrats = () => {
     setShowCongrats(false)
-    // When closing congrats, start break timer if it's break mode
     if (currentMode === 'break') {
       setIsRunning(true)
+    }
+  }
+
+  const handleSessionChange = (change) => {
+    const newSessionLength = Math.max(1, sessionLength + change)
+    setSessionLength(newSessionLength)
+    if (currentMode === 'pomodoro') {
+      setDuration(newSessionLength * 60)
+    }
+  }
+
+  const handleBreakChange = (change) => {
+    const newBreakLength = Math.max(1, breakLength + change)
+    setBreakLength(newBreakLength)
+    if (currentMode === 'break') {
+      setDuration(newBreakLength * 60)
     }
   }
 
@@ -88,14 +103,11 @@ const PomodoroTimer = () => {
         <div>
           <p className="text-lg text-slate-100">Session Length</p>
           <div className="counter">
-            <button
-              className="btn"
-              onClick={() => setSessionLength(Math.max(1, sessionLength - 1))}
-            >
+            <button className="btn" onClick={() => handleSessionChange(-1)}>
               -
             </button>
             <span>{sessionLength}</span>
-            <button className="btn" onClick={() => setSessionLength(sessionLength + 1)}>
+            <button className="btn" onClick={() => handleSessionChange(1)}>
               +
             </button>
           </div>
@@ -103,11 +115,11 @@ const PomodoroTimer = () => {
         <div>
           <p className="text-lg text-slate-100">Break Length</p>
           <div className="counter">
-            <button className="btn" onClick={() => setBreakLength(Math.max(1, breakLength - 1))}>
+            <button className="btn" onClick={() => handleBreakChange(-1)}>
               -
             </button>
             <span>{breakLength}</span>
-            <button className="btn" onClick={() => setBreakLength(breakLength + 1)}>
+            <button className="btn" onClick={() => handleBreakChange(1)}>
               +
             </button>
           </div>

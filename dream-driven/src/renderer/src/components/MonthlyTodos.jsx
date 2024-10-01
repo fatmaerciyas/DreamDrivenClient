@@ -9,12 +9,28 @@ export default function MonthlyTodo() {
   const [newTodo, setNewTodo] = useState('')
   const [showRectangle, setShowRectangle] = useState(false)
   const [backgroundColor, setBackgroundColor] = useState('#475569')
+  const [fade, setFade] = useState(0) // State for fade effect
   const navigate = useNavigate()
 
   useEffect(() => {
     renderCalendar()
+    setFade(1) // Trigger fade-in effect
   }, [currentDate])
 
+  const monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ]
   const renderCalendar = () => {
     const year = currentDate.getFullYear()
     const month = currentDate.getMonth()
@@ -30,21 +46,36 @@ export default function MonthlyTodo() {
   }
 
   const handlePrev = () => {
-    setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)))
+    setFade(0) // Fade out
+    setTimeout(() => {
+      setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() - 1)))
+      setFade(1) // Fade in
+    }, 200) // Match with the CSS transition duration
   }
 
   const handleNext = () => {
-    setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)))
+    setFade(0) // Fade out
+    setTimeout(() => {
+      setCurrentDate(new Date(currentDate.setMonth(currentDate.getMonth() + 1)))
+      setFade(1) // Fade in
+    }, 200) // Match with the CSS transition duration
   }
-
   const handleDayClick = (day) => {
-    setCurrentDay(day)
-    setShowRectangle(true)
+    setFade(0) // Fade out
+    setTimeout(() => {
+      setCurrentDay(day)
+      setShowRectangle(true)
+      setFade(1) // Fade in
+    }, 150) // Adjust timing as needed
   }
 
   const handleCloseRectangle = () => {
-    setShowRectangle(false)
-    setCurrentDay(null)
+    setFade(0) // Fade out
+    setTimeout(() => {
+      setShowRectangle(false)
+      setCurrentDay(null)
+      setFade(1) // Fade in
+    }, 150) // Adjust timing as needed
   }
 
   const handleAddTodo = () => {
@@ -81,13 +112,13 @@ export default function MonthlyTodo() {
 
   return (
     <div
-      className="flex mt-40 h-screen w-[1300px] m-32 rounded-3xl justify-center opacity-80"
-      style={{ backgroundColor }}
+      className="flex mt-40 h-screen w-[1300px] m-32 rounded-3xl justify-center transition-opacity duration-500"
+      style={{ backgroundColor, opacity: fade }}
     >
       <div className="w-full mx-8 p-6 relative">
         <button
           className="absolute text-3xl top-0 right-0 -mr-6 -mt-2 w-8 h-8 cursor-pointer text-white bg-transparent"
-          onClick={() => navigate(-1)} // Go back to previous pa
+          onClick={() => navigate(-1)} // Go back to previous page
         >
           &times;
         </button>
@@ -98,7 +129,7 @@ export default function MonthlyTodo() {
           <h2 className="text-2xl font-bold">
             {currentDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
           </h2>
-          <div className=" justify-between ">
+          <div className="justify-between">
             <button onClick={handleNext} className="bg-teal-600 rounded-lg text-white px-4 py-2">
               Next ▶️
             </button>
@@ -167,11 +198,21 @@ export default function MonthlyTodo() {
             </div>
           ))}
         </div>
-
         {showRectangle && currentDay !== null && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-1/3">
-              <h3 className="text-lg mb-4">Add a todo for day {currentDay}</h3>
+            <div
+              className={`bg-white p-8 rounded-lg relative shadow-lg w-1/3 transition-opacity duration-200`}
+              style={{ opacity: fade }}
+            >
+              <button
+                className="absolute top-1 right-2 text-4xl text-red-500 cursor-pointer"
+                onClick={handleCloseRectangle} // Close the modal when clicked
+              >
+                &times; {/* X icon */}
+              </button>
+              <h3 className="text-lg mb-4">
+                Add a todo for day {currentDay} in {monthNames[currentDate.getMonth()]}
+              </h3>
               <input
                 type="text"
                 value={newTodo}
@@ -182,15 +223,9 @@ export default function MonthlyTodo() {
               <div className="flex justify-end">
                 <button
                   onClick={handleAddTodo}
-                  className="bg-green-500 text-white px-4 py-2 rounded mr-2"
+                  className="bg-green-500 text-white px-4 py-2 rounded-lg mr-2"
                 >
                   Add Todo
-                </button>
-                <button
-                  onClick={handleCloseRectangle}
-                  className="bg-red-500 text-white px-4 py-2 rounded"
-                >
-                  Close
                 </button>
               </div>
             </div>
