@@ -112,7 +112,7 @@ export default function MonthlyTodo() {
 
   return (
     <div
-      className="flex mt-40 h-screen w-[1300px] m-32 rounded-3xl justify-center transition-opacity duration-500"
+      className="flex mt-40 h-screen w-[1300px] m-32 pb-4 rounded-3xl justify-center transition-opacity duration-500"
       style={{ backgroundColor, opacity: fade }}
     >
       <div className="w-full mx-8 p-6 relative">

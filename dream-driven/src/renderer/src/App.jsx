@@ -7,6 +7,7 @@ import SpotifyEmbed from './components/SpotifyEmbed'
 import MonthlyTodos from './components/MonthlyTodos'
 import PomodoroTimer from './components/PomodoroTimer'
 import Notebook from './components/Notebook'
+import BreakTimer from './components/BreakTimer'
 
 const App = () => {
   return (
@@ -18,8 +19,10 @@ const App = () => {
           <Route path="spotify" element={<SpotifyEmbed />} />
           <Route path="todo" element={<MonthlyTodos />} />
           <Route path="pomodoro" element={<PomodoroTimer />} />
+          <Route path="break" element={<BreakTimer />} />
           <Route path="notebook" element={<Notebook />} />
           {/* <Route path="room" element={<Room />} /> */}
+          <Route path="*" element={<Homepage />} />
         </Route>
       </Routes>
     </Router>

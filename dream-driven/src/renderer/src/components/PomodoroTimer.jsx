@@ -1,21 +1,35 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CountdownCircleTimer } from 'react-countdown-circle-timer'
 import '../../../assets/pomodoro.css'
 import beepSound from '../../../assets/beep.mp3'
 import Congratulations from './Congratulations'
+import { useNavigate } from 'react-router-dom'
 
 const PomodoroTimer = () => {
   const [sessionLength, setSessionLength] = useState(25)
-  const [breakLength, setBreakLength] = useState(5)
   const [isRunning, setIsRunning] = useState(false)
-  const [currentMode, setCurrentMode] = useState('pomodoro')
-  const [showCongrats, setShowCongrats] = useState(false)
   const [duration, setDuration] = useState(sessionLength * 60)
+  const [showCongrats, setShowCongrats] = useState(false)
+  const [fade, setFade] = useState(0) // Start at 0 for fade-in effect
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    // Fade in effect
+    const fadeIn = setInterval(() => {
+      setFade((prev) => {
+        if (prev < 1) return prev + 0.1 // Increase opacity
+        clearInterval(fadeIn) // Clear interval when fully visible
+        return 1
+      })
+    }, 30) // Adjust duration as needed
+
+    return () => clearInterval(fadeIn) // Cleanup
+  }, [])
 
   const handleStart = () => {
     if (!isRunning) {
       setIsRunning(true)
-      setDuration(currentMode === 'pomodoro' ? sessionLength * 60 : breakLength * 60)
+      setDuration(sessionLength * 60)
     }
   }
 
@@ -23,13 +37,22 @@ const PomodoroTimer = () => {
     setIsRunning(false)
   }
 
-  const handleClear = () => {
+  const reloadPage = () => {
+    navigate(0) // This reloads the current route
+  }
+  const handleClear = (e) => {
     setIsRunning(false)
-    setCurrentMode('pomodoro')
-    setSessionLength(25)
-    setBreakLength(5)
+    setSessionLength(25) // Reset to default session length
     setShowCongrats(false)
-    setDuration(25 * 60)
+    setDuration(25 * 60) // Reset duration to 25 minutes
+  }
+
+  const handleFinishSession = () => {
+    const audio = new Audio(beepSound)
+    audio.play()
+
+    setShowCongrats(true)
+    setIsRunning(false)
   }
 
   const onComplete = () => {
@@ -38,107 +61,82 @@ const PomodoroTimer = () => {
 
     setShowCongrats(true)
     setIsRunning(false)
-
-    // Switch modes without triggering additional updates
-    if (currentMode === 'pomodoro') {
-      setCurrentMode('break')
-      setDuration(breakLength * 60)
-    } else {
-      setCurrentMode('pomodoro')
-      setDuration(sessionLength * 60)
-    }
-
-    return [true, duration]
   }
 
   const handleCloseCongrats = () => {
     setShowCongrats(false)
-    if (currentMode === 'break') {
-      setIsRunning(true)
-    }
+    navigate('/break')
   }
 
   const handleSessionChange = (change) => {
     const newSessionLength = Math.max(1, sessionLength + change)
     setSessionLength(newSessionLength)
-    if (currentMode === 'pomodoro') {
+    if (!isRunning) {
       setDuration(newSessionLength * 60)
     }
   }
 
-  const handleBreakChange = (change) => {
-    const newBreakLength = Math.max(1, breakLength + change)
-    setBreakLength(newBreakLength)
-    if (currentMode === 'break') {
-      setDuration(newBreakLength * 60)
-    }
-  }
-
   return (
-    <div className="pomodoro backdrop-blur-sm">
-      <div className="circle-container">
-        <CountdownCircleTimer
-          isPlaying={isRunning}
-          duration={duration}
-          colors="url(#your-unique-id)"
-          onComplete={onComplete}
-        >
-          {({ remainingTime }) => (
-            <div style={{ fontSize: '2em', color: '#ffffff' }}>
-              {`${Math.floor(remainingTime / 60)}:${String(remainingTime % 60).padStart(2, '0')}`}
+    <div
+      className="pomodoro-container transition-opacity duration-200"
+      style={{ opacity: fade }} // Apply fade-in effect
+    >
+      <div className="pomodoro">
+        <div className="circle-container">
+          <CountdownCircleTimer
+            isPlaying={isRunning}
+            duration={duration}
+            colors="url(#your-unique-id)"
+            onComplete={onComplete}
+          >
+            {({ remainingTime }) => (
+              <div style={{ fontSize: '2em', color: '#ffffff' }}>
+                {`${Math.floor(remainingTime / 60)}:${String(remainingTime % 60).padStart(2, '0')}`}
+              </div>
+            )}
+          </CountdownCircleTimer>
+          <svg>
+            <defs>
+              <linearGradient id="your-unique-id" x1="1" y1="0" x2="0" y2="0">
+                <stop offset="5%" stopColor="#3357FF" />
+                <stop offset="95%" stopColor="#33FFF6" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h2 className="mode">Focusing</h2>
+        <div className="mb-6">
+          <div className="mt-6">
+            <p className="text-lg text-slate-100">Session Length</p>
+            <div className="counter">
+              <button className="btn text-xl" onClick={() => handleSessionChange(-1)}>
+                -
+              </button>
+              <span className="text-white text-xl m-2">{sessionLength}</span>
+              <button className="btn text-xl" onClick={() => handleSessionChange(1)}>
+                +
+              </button>
             </div>
-          )}
-        </CountdownCircleTimer>
-        <svg>
-          <defs>
-            <linearGradient id="your-unique-id" x1="1" y1="0" x2="0" y2="0">
-              <stop offset="5%" stopColor="#3357FF" />
-              <stop offset="95%" stopColor="#33FFF6" />
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-      <h2 className="mode">{currentMode === 'pomodoro' ? 'Pomodoro' : 'Break'}</h2>
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div>
-          <p className="text-lg text-slate-100">Session Length</p>
-          <div className="counter">
-            <button className="btn" onClick={() => handleSessionChange(-1)}>
-              -
+          </div>
+        </div>
+        <div className="container mt-16">
+          <div className="row" id="btns">
+            <button className="btn btn-default btn-lg" onClick={handleStart}>
+              Start
             </button>
-            <span>{sessionLength}</span>
-            <button className="btn" onClick={() => handleSessionChange(1)}>
-              +
+            <button className="btn btn-default btn-lg" onClick={handleStop}>
+              Stop
+            </button>
+            <button className="btn btn-default btn-lg" onClick={reloadPage}>
+              Clear
+            </button>
+            <button className="btn btn-default btn-lg" onClick={handleFinishSession}>
+              Finish Session
             </button>
           </div>
         </div>
-        <div>
-          <p className="text-lg text-slate-100">Break Length</p>
-          <div className="counter">
-            <button className="btn" onClick={() => handleBreakChange(-1)}>
-              -
-            </button>
-            <span>{breakLength}</span>
-            <button className="btn" onClick={() => handleBreakChange(1)}>
-              +
-            </button>
-          </div>
-        </div>
+        {showCongrats && <Congratulations mode="pomodoro" onClose={handleCloseCongrats} />}
       </div>
-      <div className="container mt-16">
-        <div className="row" id="btns">
-          <button className="btn btn-default btn-lg" onClick={handleStart}>
-            Start
-          </button>
-          <button className="btn btn-default btn-lg" onClick={handleStop}>
-            Stop
-          </button>
-          <button className="btn btn-default btn-lg" onClick={handleClear}>
-            Clear
-          </button>
-        </div>
-      </div>
-      {showCongrats && <Congratulations mode={currentMode} onClose={handleCloseCongrats} />}
     </div>
   )
 }
