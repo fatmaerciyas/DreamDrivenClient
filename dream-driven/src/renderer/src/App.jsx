@@ -6,8 +6,8 @@ import MainPage from './components/MainPage'
 import SpotifyEmbed from './components/SpotifyEmbed'
 import MonthlyTodos from './components/MonthlyTodos'
 import PomodoroTimer from './components/PomodoroTimer'
-import Notebook from './components/Notebook'
 import BreakTimer from './components/BreakTimer'
+import Notebook from './components/Notebook'
 
 const App = () => {
   return (
