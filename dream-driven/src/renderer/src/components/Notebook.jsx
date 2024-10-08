@@ -2,6 +2,7 @@ import HTMLFlipBook from 'react-pageflip'
 import React, { useState } from 'react'
 import '../../../assets/notebook.css'
 import pageCoverImage from '../../../assets/pageCovers/pageCover2.jpg'
+import pageImage from '../../../assets/pages/page1.jpg'
 
 import pageCover1 from '../../../assets/pageCovers/pageCover1.jpg'
 import pageCover2 from '../../../assets/pageCovers/pageCover2.jpg'
@@ -17,7 +18,20 @@ import pageCover12 from '../../../assets/pageCovers/pageCover12.jpg'
 import pageCover13 from '../../../assets/pageCovers/pageCover13.jpg'
 import pageCover14 from '../../../assets/pageCovers/pageCover14.jpg'
 
-const images = [
+import page1 from '../../../assets/pages/page1.jpg'
+import page2 from '../../../assets/pages/page2.jpg'
+import page3 from '../../../assets/pages/page3.jpg'
+import page4 from '../../../assets/pages/page4.jpg'
+import page5 from '../../../assets/pages/page5.jpg'
+import page6 from '../../../assets/pages/page6.jpg'
+import page7 from '../../../assets/pages/page7.jpg'
+import Todo from './NotebookItems/Todo'
+import Notes from './NotebookItems/Notes'
+import Important from './NotebookItems/Important'
+import MainGoals from './NotebookItems/MainGoals'
+import Water from './NotebookItems/Water'
+
+const PageCovers = [
   pageCover1,
   pageCover2,
   pageCover4,
@@ -32,11 +46,78 @@ const images = [
   pageCover13,
   pageCover14
 ]
+const Pages = [page1, page2, page3, page4, page5, page6, page7]
 
 const Page = React.forwardRef((props, ref) => {
   return (
-    <div className="demoPage" ref={ref}>
-      <p>Page number: {props.number}</p>
+    <div
+      className="demoPage"
+      ref={ref}
+      style={{
+        display: 'flex',
+        margin: '0',
+        padding: '0',
+        height: '800px',
+        width: '600px',
+        overflow: 'hidden',
+        position: 'relative'
+      }}
+    >
+      {/* Full Cover Background Image */}
+      <div
+        style={{
+          backgroundImage: `url(${props.imageSrc})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          height: '100%',
+          width: '100%',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          zIndex: 0
+        }}
+      />
+
+      {/* Overlay Content */}
+      <div
+        style={{
+          margin: '30px',
+          height: '92%',
+          width: '90%',
+          display: 'grid',
+          gridTemplateColumns: '1fr 1fr',
+          gap: '20px',
+          position: 'relative',
+          zIndex: 1
+        }}
+      >
+        {/* Left Column */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: '1',
+            gap: '20px'
+          }}
+        >
+          <Todo />
+          <Notes />
+        </div>
+
+        {/* Right Column */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '20px',
+            flex: '1'
+          }}
+        >
+          <Important />
+          <MainGoals />
+          <Water />
+        </div>
+      </div>
     </div>
   )
 })
@@ -46,10 +127,10 @@ const PageCover = React.forwardRef((props, ref) => {
     <div
       className="page page-cover"
       ref={ref}
-      data-density="hard"
       style={{
         position: 'relative',
-        perspective: '1000px' // Derinlik hissi için
+        perspective: '1000px',
+        height: '100%' // Ensure it fills the page
       }}
     >
       <div
@@ -57,7 +138,8 @@ const PageCover = React.forwardRef((props, ref) => {
         style={{
           transform: 'rotateY(0deg)',
           transition: 'transform 0.6s',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)' // Gölgelendirme
+          height: '100%',
+          width: '100%' // Ensure it fills the page
         }}
       >
         <img
@@ -73,33 +155,54 @@ const PageCover = React.forwardRef((props, ref) => {
 function Notebook(props) {
   const [activeBoxIndex, setActiveBoxIndex] = useState(null)
   const [selectedImage, setSelectedImage] = useState(pageCoverImage)
+  const [activeBoxIndexPage, setActiveBoxIndexPage] = useState(null)
+  const [selectedPageImage, setSelectedPageImage] = useState(pageImage)
 
   const handleImageClick = (image) => {
     setSelectedImage(image)
+    console.log(selectedPageImage, selectedImage)
+  }
+
+  const handleImageClickPage = (image) => {
+    setSelectedPageImage(image)
+    console.log(selectedPageImage, selectedImage)
   }
 
   return (
     <>
-      <HTMLFlipBook width={600} height={800} showCover={true}>
+      <HTMLFlipBook
+        width={600}
+        height={800}
+        showCover={true}
+        clickEventForward={false}
+        disableFlipByClick={true}
+      >
         <PageCover imageSrc={selectedImage} />
-        <Page number="1">Page text</Page>
-        <Page number="2">Page text</Page>
-        <Page number="3">Page text</Page>
-        <Page number="4">Page text</Page>
-        <Page number="5">Page text</Page>
-        <Page number="6">Page text</Page>
+        <Page imageSrc={selectedImage} number="2"></Page>
+        <Page imageSrc={selectedPageImage} number="3"></Page>
+        <Page imageSrc={selectedPageImage} number="4"></Page>
+        <Page imageSrc={selectedPageImage} number="5"></Page>
+        <Page imageSrc={selectedPageImage} number="6"></Page>
+        <Page imageSrc={selectedPageImage} number="7"></Page>
+
         <PageCover imageSrc={selectedImage} />
       </HTMLFlipBook>
-      <div className="relative">
+      <div className="relative grid gap-4 grid-cols-2">
         <button
           onClick={() => setActiveBoxIndex(activeBoxIndex === null ? 0 : null)}
-          className="absolute top-4 left-4 bg-blue-500 text-white p-2 rounded"
+          className="absolute top-4 left-0 bg-blue-500 text-white p-2 rounded"
         >
           {activeBoxIndex === null ? 'Choose Image' : 'Close'}
         </button>
+        <button
+          onClick={() => setActiveBoxIndexPage(activeBoxIndexPage === null ? 0 : null)}
+          className="absolute top-4 left-32 bg-blue-500 text-white p-2 rounded"
+        >
+          {activeBoxIndexPage === null ? 'Choose Image' : 'Close'}
+        </button>
 
         {activeBoxIndex !== null && (
-          <div className="absolute bottom-16 right-32 transform -translate-x-1/2 bg-transparent backdrop-blur p-4 rounded-lg shadow-lg z-10 w-48 overflow-auto">
+          <div className="absolute bottom-16 right-8 transform -translate-x-1/2 bg-transparent backdrop-blur p-4 rounded-lg shadow-lg z-10 w-48 overflow-auto">
             <div className="flex justify-between items-center">
               <h2 className="font-bold text-lg">Images</h2>
               <button
@@ -111,13 +214,39 @@ function Notebook(props) {
               </button>
             </div>
             <div className="grid grid-cols-3 gap-2 mt-2">
-              {images.map((image, index) => (
+              {PageCovers.map((image, index) => (
                 <img
                   key={index}
                   src={image}
                   alt={`Image ${index + 1}`}
                   className="w-full h-auto rounded-lg cursor-pointer"
                   onClick={() => handleImageClick(image)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeBoxIndexPage !== null && (
+          <div className="absolute bottom-16 right-32 transform -translate-x-1/2 bg-transparent backdrop-blur p-4 rounded-lg shadow-lg z-10 w-48 overflow-auto">
+            <div className="flex justify-between items-center">
+              <h2 className="font-bold text-lg">Images</h2>
+              <button
+                className="text-xl font-bold"
+                onClick={() => setActiveBoxIndexPage(null)} // Close box
+                aria-label="Close"
+              >
+                &times;
+              </button>
+            </div>
+            <div className="grid grid-cols-3 gap-2 mt-2">
+              {Pages.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`Image ${index + 1}`}
+                  className="w-full h-auto rounded-lg cursor-pointer"
+                  onClick={() => handleImageClickPage(image)}
                 />
               ))}
             </div>

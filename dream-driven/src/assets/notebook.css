@@ -31,3 +31,10 @@
 .text-gold {
   color: rgba(255, 215, 0, 1); /* Fully opaque gold */
 }
+
+.demoPage,
+.page-content {
+  margin: 0;
+  padding: 0;
+  border: none; /* Remove borders if any */
+}
